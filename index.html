@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title> Video List Manager </title>
+		<link href="css/style.css" rel="stylesheet">
+		<script src="https://unpkg.com/htmx.org@2.0.1"></script>
+	</head>
+	<body>
+		<h1> Video List Manager </h1>
+		<form hx-get="format.php" hx-target="#result">
+			<div>
+				<label for="query">Query: </label>
+				<input type="text" name="query" id="query"/>
+			</div>
+
+			<div>
+				<input type="checkbox" name="search" id="search"/>
+				<label for="search"> Search youtube </label>
+			</div>
+
+			<input type="submit" value="Search Formats"/>
+			<p role="alert" class="htmx-indicator"> Querying... </p>
+		</form>
+		<p> Current format: </p>
+		<div id="format">
+		</div>
+		<div class="result" id="result"></div>
+
+		<script src="main.js"></script>
+	</body>
+</html>
