@@ -23,10 +23,31 @@
 			<input type="submit" value="Search Formats"/>
 			<p role="alert" class="htmx-indicator"> Querying... </p>
 		</form>
+
 		<p> Current format: </p>
 		<div id="format">
 		</div>
+
 		<div class="result" id="result"></div>
+
+		<button onclick="add_download()"> Add Download </button>
+		<div id="download-list"></div>
+
+		<button onclick="download_json()"> Download JSON </button>
+		<button onclick="load_json()"> Load JSON </button>
+
+		<form id="download_form" onsubmit="download_script(event)">
+			<div>
+				<label for="exe"> Executable: </label>
+				<input type="text" name="exe" id="exe" value="yt-dlp"/>
+			</div>
+			<select id="downloader" name="downloader">
+				<option> aria2c </option>
+				<option value=""> default </option>
+			</select>
+
+			<input type="submit" value="Download Script"/>
+		</form>
 
 		<script src="main.js"></script>
 	</body>
