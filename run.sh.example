@@ -20,7 +20,7 @@ help ()
 ui ()
 {
 	cd $UI_PATH || exit 1
-	php -S localhost:$UI_PORT &
+	php -S localhost:$UI_PORT 2> /tmp/yt-vidlist.log &
 	PID=$!
 	if ps -p $PID > /dev/null
 	then
@@ -35,6 +35,7 @@ ui ()
 terminate ()
 {
 	kill $(cat /tmp/yt-vidlist.pid)
+	rm /tmp/yt-vidlist.pid
 }
 
 download ()
