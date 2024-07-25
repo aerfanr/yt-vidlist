@@ -42,7 +42,7 @@ $link = $video->original_url;
 
 	<tr>
 		<td> 
-		    <button onclick="add_merge('<? echo $format->format_id; ?>')"> + </button>
+		    <button onclick="add_merge(event, '<? echo $format->format_id; ?>')"> + </button>
 		</td>
 		<td> <? echo $format->format_id; ?> </td>
 		<td> <? echo isset($format->filesize) ? $filesize . UNITS[$unit] : "N/A"; ?> </td>

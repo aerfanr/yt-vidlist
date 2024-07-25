@@ -9,7 +9,14 @@ downloads = []
 update_format_display();
 update_download_display();
 
-function add_merge(format_id) {
+function add_merge(e, format_id) {
+	e.target.classList.add('!bg-emerald-500');
+	const text = e.target.innerText;
+	e.target.innerText = '✓';
+	setTimeout(() => {
+		e.target.classList.remove('!bg-emerald-500');
+		e.target.innerText = text;
+	}, 2000);
 	format_current.push({
 		sign: '+', // The plus sign means merge, it will be useful later
 		id: format_id
@@ -50,13 +57,21 @@ function update_format_display() {
 	}))
 }
 
-function add_download() {
+function add_download(e) {
 	query = document.getElementById('link');
 	if (!query || query.innerText.length === 0) {
 		alert("No video selected");
                 return;
         }
 	title = document.getElementById('title')?.innerText || "No title";
+
+	e.target.classList.add('!bg-rose-500');
+	const text = e.target.innerText;
+	e.target.innerText = 'Download added ✓';
+	setTimeout(() => {
+                e.target.classList.remove('!bg-rose-500');
+                e.target.innerText = text;
+        }, 2000);
 
 	downloads.push({
 		title: title,
@@ -125,7 +140,8 @@ function download_json() {
         link.click();
 }
 
-function load_json() {
+function load_json(btn_event) {
+	const button = btn_event.target;
         const input = document.createElement('input');
         input.type = 'file';
         input.onchange = (e) => {
@@ -150,6 +166,14 @@ function load_json() {
                                         v.format = '';
                                 }
                         }
+
+			button.classList.add('!bg-rose-500');
+			const text = button.innerText;
+			button.innerText = 'Loaded ✓';
+                        setTimeout(() => {
+				button.classList.remove('!bg-rose-500');
+				button.innerText = text;
+			}, 2000)
 
                         downloads = json;
                         update_download_display();
