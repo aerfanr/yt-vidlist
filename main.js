@@ -26,13 +26,18 @@ function update_format_display() {
 
 	format_display.replaceChildren(...format_current.map((f, i) => {
 		const container = document.createElement('div');
+		container.className = 'inline-flex'
+
 		if (i) {
 			const sign = document.createElement('span');
 			sign.innerText = f.sign;
+			sign.className = 'p-2';
 			container.appendChild(sign);
 		}
+
 		const id = document.createElement('button');
 		id.innerText = f.id;
+		id.className = 'p-2 bg-rose-800'
 		id.onclick = () => {
 			format_current = format_current.filter((_it, idx) => {
 				return i !== idx
@@ -51,8 +56,10 @@ function add_download() {
 		alert("No video selected");
                 return;
         }
+	title = document.getElementById('title')?.innerText || "No title";
 
 	downloads.push({
+		title: title,
 		query: query.innerText,
 		format: format_current.reduce((a, b) => {
 			if (a.length !== 0) {
@@ -69,9 +76,16 @@ function add_download() {
 function update_download_display() {
 	download_display.replaceChildren(...downloads.map((d, i) => {
 		const container = document.createElement('div');
+		container.className = "mx-2 my-3 rounded-lg bg-rose-50";
 
-		const query = document.createElement('pre');
+		const title = document.createElement('div');
+		title.innerText = d.title;
+                title.className = "font-bold p-2 text-pretty";
+                container.appendChild(title);
+
+		const query = document.createElement('div');
 		query.innerText = d.query;
+		query.className = "p-2 text-nowrap overflow-x-auto";
 		container.appendChild(query);
 
 		const format = document.createElement('pre');
@@ -79,11 +93,13 @@ function update_download_display() {
 			format.innerText = 'Default format';
 		} else {
 			format.innerText = d.format;
+			format.className = "p-2 text-nowrap overflow-x-auto";
 		}
 		container.appendChild(format);
 
 		const remove = document.createElement('button');
 		remove.innerText = 'Remove';
+		remove.className = 'm-2';
                 remove.onclick = () => {
                         downloads = downloads.filter((_it, idx) => {
                                 return idx !== i
@@ -174,4 +190,9 @@ function download_script(e) {
 	link.href = url;
         link.download = 'video-download.sh';
         link.click();
+}
+
+function toggle_section(e) {
+	const section = document.getElementById(e.target.dataset.toggle);
+	section.hidden = !section.hidden;
 }

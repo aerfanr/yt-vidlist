@@ -13,20 +13,11 @@ $title = $video->title;
 $link = $video->original_url;
 ?>
 
-<p> <b> Video Title: </b> <span id="title"> <? echo $title; ?> </span> </p>
-<p> <b> Video Link: </b> <a id="link" href="<? echo $link; ?>"> <? echo $link; ?> </a> </p>
+<span class="block" id="title" hx-swap-oob="true"> <? echo $title; ?> </span>
+<a class="block underline" id="link" hx-swap-oob="true" href="<? echo $link; ?>"> <? echo $link; ?> </a>
 
-<table>
-<thead>
-	<tr>
-		<th> Format ID </th>
-		<th> File Size </th>
-		<th> File Size Approx </th>
-		<th> Resolution </th>
-	</tr>
-<thead>
-
-<tbody>
+<template>
+<tbody id="format-tbody" hx-swap-oob="true">
 <? foreach ($video->formats as $format) {
 	if (isset($format->filesize)) {
 		$filesize = $format->filesize;
@@ -47,17 +38,17 @@ $link = $video->original_url;
 		}
 		$filesize_approx = number_format($filesize_approx, 2);
 	}
+?>
 
-	?>
 	<tr>
+		<td> 
+		    <button onclick="add_merge('<? echo $format->format_id; ?>')"> + </button>
+		</td>
 		<td> <? echo $format->format_id; ?> </td>
 		<td> <? echo isset($format->filesize) ? $filesize . UNITS[$unit] : "N/A"; ?> </td>
 		<td> <? echo isset($format->filesize_approx) ? $filesize_approx . UNITS[$unit_approx]: "N/A"; ?> </td>
 		<td> <? echo isset($format->resolution) ? $format->resolution : "N/A"; ?> </td>
-		<td> 
-		    <button onclick="add_merge('<? echo $format->format_id; ?>')"> + </button>
-		</td>
 	</tr>
-	<?}?>
+<?}?>
 </tbody>
-</table>
+</template>

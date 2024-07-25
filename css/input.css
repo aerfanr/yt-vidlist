@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input, textarea, select {
+        /* @apply border-gray-200; */
+	@apply rounded-md bg-rose-50 shadow-inner;
+}
+
+button, input[type="submit"] {
+	@apply p-2 bg-rose-600 shadow-md rounded-md text-rose-50 cursor-pointer;
+	@apply hover:bg-rose-700 hover:shadow-sm;
+}
+
+h1, h2, h3 {
+	@apply text-rose-800;
+}
