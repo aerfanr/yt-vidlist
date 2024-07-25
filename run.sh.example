@@ -1,0 +1,52 @@
+#!/usr/bin/sh
+
+SCRIPT_PATH=$(dirname "$0")
+UI_PATH=${SCRIPT_PATH}
+UI_PORT=8786
+DOWNLAOD_SCRIPT_PATH="$(pwd)/vidlist/video-download.sh"
+DOWNLOAD_PATH="$(pwd)/vidlist"
+
+help ()
+{
+	echo "This scripts helps you run yt-vidlist ui faster and also runs the download script."
+	echo
+	echo $0 ui		to launch the UI
+	echo $0 kill		to kill the UI
+	echo $0 download	to run the download script
+	echo
+	echo Edit the script to change script and download path
+}
+
+ui ()
+{
+	cd $UI_PATH || exit 1
+	php -S localhost:$UI_PORT &
+	PID=$!
+	if ps -p $PID > /dev/null
+	then
+		echo $PID > /tmp/yt-vidlist.pid
+		echo "Running UI at http://localhost:$UI_PORT"
+		xdg-open "http://localhost:$UI_PORT"
+	else
+		exit 1
+	fi
+}
+
+terminate ()
+{
+	kill $(cat /tmp/yt-vidlist.pid)
+}
+
+download ()
+{
+	cd $DOWNLOAD_PATH || exit 1
+	sh $DOWNLAOD_SCRIPT_PATH || exit 1
+}
+
+case "$1" in
+	"ui") ui ;;
+	"kill") terminate ;;
+	"download") download ;;
+	*) help ;;
+esac
+
