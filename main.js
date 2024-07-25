@@ -201,6 +201,10 @@ function download_script(e) {
 
 		if (downloader.length > 0) {
 			script += ' --downloader ' + downloader;
+
+			if (downloader === 'aria2c') {
+				script += ' --downloader-args "aria2c:--summary-interval=10"'
+			}
 		}
 
                 script += ' "' + video.query + '"\n';
