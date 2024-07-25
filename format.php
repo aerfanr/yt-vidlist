@@ -46,8 +46,11 @@ $link = $video->original_url;
 		</td>
 		<td> <? echo $format->format_id; ?> </td>
 		<td> <? echo isset($format->filesize) ? $filesize . UNITS[$unit] : "N/A"; ?> </td>
-		<td> <? echo isset($format->filesize_approx) ? $filesize_approx . UNITS[$unit_approx]: "N/A"; ?> </td>
+		<!--<td> <? echo isset($format->filesize_approx) ? $filesize_approx . UNITS[$unit_approx]: "N/A"; ?> </td>-->
 		<td> <? echo isset($format->resolution) ? $format->resolution : "N/A"; ?> </td>
+		<td> <? echo isset($format->vcodec) ? $format->vcodec : "N/A"; ?> </td>
+		<td> <? echo isset($format->acodec) ? $format->acodec : "N/A"; ?> </td>
+		<td> <? echo isset($format->format) ? $format->format : "N/A"; ?> </td>
 	</tr>
 <?}?>
 </tbody>
