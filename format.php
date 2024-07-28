@@ -6,8 +6,17 @@ if (isset($_GET["search"])) {
 	$query = "ytsearch:" . $query;
 }
 
-$output = json_decode(`yt-dlp --no-warnings -J "{$query}"`);
-$video = $output->entries[0];
+$json = `yt-dlp --no-warnings -J "{$query}"`;
+$output = json_decode($json);
+
+$video = $output;
+if (isset($output->entries[0]->formats)) {
+	$video = $output->entries[0];
+} else if (!isset($output->formats)) {
+	echo "No results found, Json output: \n";
+	echo $json;
+        exit;
+}
 
 $title = $video->title;
 $link = $video->original_url;
