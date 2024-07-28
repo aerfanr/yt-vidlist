@@ -6,7 +6,7 @@ if (isset($_GET["search"])) {
 	$query = "ytsearch:" . $query;
 }
 
-$json = `yt-dlp --no-warnings -J "{$query}"`;
+$json = `yt-dlp --no-warnings -J --compat-options manifest-filesize-approx "{$query}"`;
 $output = json_decode($json);
 
 $video = $output;
@@ -28,24 +28,21 @@ $link = $video->original_url;
 <template>
 <tbody id="format-tbody" hx-swap-oob="true">
 <? foreach ($video->formats as $format) {
-	if (isset($format->filesize)) {
-		$filesize = $format->filesize;
+	$approx = false;
+	$filesize = $format->filesize;
+
+	if (!isset($format->filesize) && isset($format->filesize_approx)) {
+		$approx = true;
+		$filesize = $format->filesize_approx;
+	}
+
+	if (isset($filesize)) {
 		$unit = 0;
 		while ($filesize > 1024) {
 			$filesize /= 1024;
 			$unit++;
 		}
-		$filesize = number_format($filesize, 2);
-	}
-
-	if (isset($format->filesize_approx)) {
-		$filesize_approx = $format->filesize_approx;
-		$unit_approx = 0;
-		while ($filesize_approx > 1024) {
-			$filesize_approx /= 1024;
-			$unit_approx++;
-		}
-		$filesize_approx = number_format($filesize_approx, 2);
+		$filesize = ($approx ? '~' : '') . number_format($filesize, 2);
 	}
 ?>
 
@@ -54,8 +51,9 @@ $link = $video->original_url;
 		    <button onclick="add_merge(event, '<? echo $format->format_id; ?>')"> + </button>
 		</td>
 		<td> <? echo $format->format_id; ?> </td>
-		<td> <? echo isset($format->filesize) ? $filesize . UNITS[$unit] : "N/A"; ?> </td>
-		<!--<td> <? echo isset($format->filesize_approx) ? $filesize_approx . UNITS[$unit_approx]: "N/A"; ?> </td>-->
+		<td class="<? echo $approx ? 'text-slate-700' : ''?>">
+			<? echo isset($filesize) ? $filesize . UNITS[$unit] : "N/A"; ?>
+		</td>
 		<td> <? echo isset($format->resolution) ? $format->resolution : "N/A"; ?> </td>
 		<td> <? echo isset($format->vcodec) ? $format->vcodec : "N/A"; ?> </td>
 		<td> <? echo isset($format->acodec) ? $format->acodec : "N/A"; ?> </td>
