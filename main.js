@@ -193,7 +193,7 @@ function download_script(e) {
 
 	for (video of downloads) {
 		// TODO: write-subs as an option
-		script += exe + ' --write-subs';
+		script += exe + ' --write-subs --no-skip-unavailable-fragments';
 
 		if (video.format.length > 0) {
                         script += ' --format ' + video.format;
